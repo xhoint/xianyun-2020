@@ -63,10 +63,9 @@ export default {
           // this.$store.state.user.userInfo=data-----错误写法
           // 通过commit调用mutations中的方法---第一个参数为user中的方法，第二个参数为数据
           // this.$store.commit('user/setUserInfo',data)
-
-          // --------------------------------------------
           // });
-          // 通过commit调用actions中的方法
+          // --------------------------------------------
+          // 通过commit调用actions中的方法---第一个参数为user中的方法，第二个参数为数据
           this.$store.dispatch("user/login", this.form).then(() => {
             this.$message.success("登录成功!");
             // 跳转到首页
