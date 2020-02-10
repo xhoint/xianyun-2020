@@ -30,7 +30,7 @@
           </el-row>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <div>退出</div>
+              <div @click="handleLogout">退出</div>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -45,10 +45,18 @@
 export default {
   methods: {
     // 用户退出
-    handleLogout() {}
+    handleLogout() {
+      const { commit } = this.$store;
+      commit("user/cleanUserInfo");
+
+      this.$message({
+        message: "退出成功",
+        type: "success"
+      });
+    }
   }
 };
-</script>	</script>
+</script>	
 <style scoped lang="less">
 .header {
   height: 60px;
