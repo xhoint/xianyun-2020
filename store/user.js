@@ -28,10 +28,25 @@ export const mutations = {
 export const actions = {
   // 函数名自定义,
   // 第一个参数必须是store, 第二个参数调用时候传入的参数
+  // 登录方法
   login(store, data) {
     // 提交到登录接口
     return this.$axios({
       url: "/accounts/login",
+      method: "POST",
+      data
+    }).then(res => {
+      // data是要保存到userInfo
+      const { data } = res;
+      // 调用commit保存数据到state
+      store.commit("setUserInfo", data);
+    });
+  },
+  // 注册方法
+  register(store, data) {
+    // 调用注册的接口
+    return this.$axios({
+      url: "/accounts/register",
       method: "POST",
       data
     }).then(res => {
