@@ -52,17 +52,25 @@ export default {
       //   validate---表单中的方法
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.$axios({
-            url: "/accounts/login",
-            method: "POST",
-            //从表单中获取数据
-            data: this.form
-          }).then(res => {
-             // console.log(res.data);
-            // 把数据存到store中
-            // this.$store.state.user.userInfo=data-----错误写法
-            // 通过commit调用mutations中的方法---第一个参数为user中的方法，第二个参数为数据
-            this.$store.commit('user/setUserInfo',data)
+          // this.$axios({
+          //   url: "/accounts/login",
+          //   method: "POST",
+          //   //从表单中获取数据
+          //   data: this.form
+          // }).then(res => {
+          // console.log(res.data);
+          // 把数据存到store中
+          // this.$store.state.user.userInfo=data-----错误写法
+          // 通过commit调用mutations中的方法---第一个参数为user中的方法，第二个参数为数据
+          // this.$store.commit('user/setUserInfo',data)
+
+          // --------------------------------------------
+          // });
+          // 通过commit调用actions中的方法
+          this.$store.dispatch("user/login", this.form).then(() => {
+            this.$message.success("登录成功!");
+            // 跳转到首页
+            // this.$router.push("/");
           });
         }
       });

@@ -1,6 +1,6 @@
 <template>
-  <div class="header">
-    <el-row type="flex" justify="space-between" class="head">
+  <header class="header">
+    <el-row type="flex" justify="space-between" class="main">
       <!-- logo -->
       <div class="logo">
         <nuxt-link to="/">
@@ -15,71 +15,116 @@
         <nuxt-link to="/hotel">酒店</nuxt-link>
         <nuxt-link to="/air">国内机票</nuxt-link>
       </el-row>
-      <!-- 登录注册 -->
+
+      <!-- 登录/用户信息 -->
       <el-row type="flex" align="middle">
-        <nuxt-link to="/user/login">登录/注册</nuxt-link>
-        <!-- 展示用户信息 -->
-        <!--仓库名+文件名   user---设置一个空对象,防止数据报错 -->
-        {{$store.state.user.userInfo.user.nickname }}
+        <!-- 如果用户存在则展示用户信息，用户数据来自store -->
+        <el-dropdown v-if="$store.state.user.userInfo.token">
+          <el-row type="flex" align="middle" class="el-dropdown-link">
+            <nuxt-link to="#">
+              <!-- 基地址+端口号 -->
+              <img :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar" />
+              {{$store.state.user.userInfo.user.nickname}}
+            </nuxt-link>
+            <i class="el-icon-caret-bottom el-icon--right"></i>
+          </el-row>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <div>退出</div>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+        <!-- 不存在用户信息展示登录注册链接 -->
+        <nuxt-link to="/user/login" class="account-link" v-else>登录 / 注册</nuxt-link>
       </el-row>
     </el-row>
-  </div>
+  </header>
 </template>
-
 <script>
-export default {};
-</script>
-
+export default {
+  methods: {
+    // 用户退出
+    handleLogout() {}
+  }
+};
+</script>	</script>
 <style scoped lang="less">
 .header {
   height: 60px;
-  background-color: #fff;
-  border-bottom: 2px solid #fff;
-  box-shadow: 0 4px 2px #f6f6f6;
-  min-width: 1000px;
-  position: relative;
-  z-index: 2;
-}
-.head {
-  width: 1000px;
-  height: 60px;
-  margin: 0 auto;
-
+  line-height: 60px;
+  background: #fff;
+  border-bottom: 1px #ddd solid;
+  box-shadow: 0 3px 0 #f5f5f5;
+  box-sizing: border-box;
+  .main {
+    width: 1000px;
+    margin: 0 auto;
+  }
   .logo {
+    width: 156px;
+    padding-top: 8px;
     img {
-      margin-top: 10px;
-      width: 156px;
-      height: 42px;
       display: block;
+      width: 100%;
     }
   }
-
   .navs {
-    margin-left: 30px;
+    margin: 0 20px;
     flex: 1;
-
     a {
       display: block;
+      padding: 0 20px;
       height: 60px;
-      line-height: 60px;
-      box-sizing: border-box; //內减模式
-      padding: 0 30px;
-
-      &:hover {
+      box-sizing: border-box;
+      &:hover,
+      &:focus,
+      &:active {
         border-bottom: 5px #409eff solid;
         color: #409eff;
       }
     }
-
-    //如果高亮没有反应则加上/deep/
-    .nuxt-link-exact-active {
+    //渲染不出来时加上/deep/
+    /deep/ .nuxt-link-exact-active {
       background: #409eff;
-      color: #fff;
-
-      &:hover {
-        color: #fff;
+      color: #fff !important;
+    }
+  }
+  .message {
+    height: 36px;
+    line-height: 1;
+    cursor: pointer;
+    .el-icon-bell {
+      margin-right: 2px;
+      font-size: 18px;
+    }
+  }
+  .el-dropdown-link {
+    margin-left: 20px;
+    &:hover {
+      img {
+        border-color: #409eff;
       }
+    }
+    a {
+      display: block;
+    }
+    img {
+      width: 32px;
+      height: 32px;
+      vertical-align: middle;
+      border: 2px #fff solid;
+      border-radius: 50px;
+    }
+  }
+  .account-link {
+    font-size: 14px;
+    margin-left: 10px;
+    color: #666;
+    &:hover {
+      color: #409eff;
+      text-decoration: underline;
     }
   }
 }
-</style> 
+</style>
