@@ -33,9 +33,22 @@
 <script>
 export default {
   data() {
-    //elment-ui  确认密码
+    //elment-ui  认证密码
     //   rule--规则  value--值
-    var validatePass = (rule, value, callback) => {
+
+    const validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (this.form.checkPassword !== "") {
+          // 验证和确认密码是否一致, 手动触发确认密码验证
+          this.$refs.form.validateField("checkPassword");
+        }
+        callback();
+      }
+    };
+    // 认证确认密码
+    const validateCheckPass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
       } else if (value !== this.form.password) {
@@ -57,45 +70,31 @@ export default {
       // 表单规则
       rules: {
         username: [
-          {
-            required: true,
-            message: "请输入用户名",
-            trigger: "blur"
-          }
+          // required表示必填，message错误的提示信息. trigger输入框失去焦点时候触发验证
+          { required: true, message: "请输入用户名", trigger: "blur" }
         ],
+        captcha: [{ required: true, message: "请输入验证码", trigger: "blur" }],
+        nickname: [{ required: true, message: "请输入昵称", trigger: "blur" }],
         password: [
-          {
-            required: true,
-            message: "请输入密码",
-            trigger: "blur"
-          }
+          // validator是验证的函数，输入框失去焦点时候触发函数执行
+          { validator: validatePass, trigger: "blur" }
         ],
-        checkPassword: [
-          {
-            validator: validatePass,
-            trigger: "blur"
-          }
-        ],
-        nickname: [
-          {
-            required: true,
-            message: "请输入昵称",
-            trigger: "blur"
-          }
-        ],
-        captcha: [
-          {
-            required: true,
-            message: "请输入验证码",
-            trigger: "blur"
-          }
-        ]
+        checkPassword: [{ validator: validateCheckPass, trigger: "blur" }]
       }
     };
   },
   methods: {
     // 发送验证码
-    handleSendCaptcha() {},
+    handleSendCaptcha() {
+      // 判断手机号不为空
+      if (this.form.username == "") {
+        return;
+      }
+      // 调用方法--store仓库中user模块下验证码的方法
+      this.$store.dispatch("user/sendCaptcha", this.form.username).then(res => {
+        this.$message.success("手机验证码：000000");
+      });
+    },
 
     // 注册
     handleRegSubmit() {
