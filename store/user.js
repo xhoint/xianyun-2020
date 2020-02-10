@@ -66,6 +66,9 @@ export const actions = {
       data: {
         tel: data //用户手机号
       }
+    }).then(res => {
+      // console.log("store中的：res");
+      return res;
     });
   }
 };
