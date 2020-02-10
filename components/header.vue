@@ -18,6 +18,9 @@
       <!-- 登录注册 -->
       <el-row type="flex" align="middle">
         <nuxt-link to="/user/login">登录/注册</nuxt-link>
+        <!-- 展示用户信息 -->
+        <!--仓库名+文件名   user---设置一个空对象,防止数据报错 -->
+        {{$store.state.user.userInfo.user.nickname }}
       </el-row>
     </el-row>
   </div>
