@@ -30,6 +30,7 @@
           </el-row>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
+              <div>个人中心</div>
               <div @click="handleLogout">退出</div>
             </el-dropdown-item>
           </el-dropdown-menu>

@@ -69,7 +69,7 @@ export default {
           this.$store.dispatch("user/login", this.form).then(() => {
             this.$message.success("登录成功!");
             // 跳转到首页
-            // this.$router.push("/");
+            this.$router.push("/");
           });
         }
       });

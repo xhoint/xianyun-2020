@@ -17,17 +17,21 @@
         <LoginForm v-if="currentTab == 0" />
 
         <!-- 注册功能组件 -->
-        <!-- <RegisterForm v-if="currentTab == 1"/> -->
+        <RegisterForm v-if="currentTab == 1" />
       </div>
     </el-row>
   </div>
 </template>
 
 <script>
+// 导入登录页面
 import LoginForm from "@/components/user/loginForm";
+// 导入注册页面
+import RegisterForm from "@/components/user/register";
 export default {
   components: {
-    LoginForm
+    LoginForm,
+    RegisterForm
   },
   data() {
     return {
