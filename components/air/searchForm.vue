@@ -37,8 +37,10 @@
       </el-form-item>
       <el-form-item label="到达城市">
         <el-autocomplete
+          v-model="form.destCity"
           :fetch-suggestions="queryDestSearch"
           placeholder="请搜索到达城市"
+          @blur="handleDestBlur"
           @select="handleDestSelect"
           class="el-autocomplete"
         ></el-autocomplete>
@@ -76,7 +78,9 @@ export default {
         departDate: "" // 日期字符串
       },
       // 出发城市列表
-      departData: []
+      departData: [],
+      // 到达城市列表
+      destData: []
     };
   },
   methods: {
@@ -140,8 +144,38 @@ export default {
 
     // 目标城市输入框获得焦点时触发
     // value 是选中的值，cb是回调函数，接收要展示的列表
-    queryDestSearch(value, cb) {},
+    queryDestSearch(value, cb) {
+      if (!value) {
+        return;
+      }
+      // 根据value请求城市列表
+      this.$axios({
+        url: "/airs/city",
+        params: {
+          name: value
+        }
+      }).then(res => {
+        const { data } = res.data;
+        const newData = data.map(v => {
+          v.value = v.name.replace("市", "");
+          return v;
+        });
+        // 把newData保存到data中(出了这里和出发城市不一样，函数内的其他代码和出发城市都是一样的)
+        this.destData = newData;
+        cb(newData);
+      });
+    },
+    // ----------------------------------------------
 
+    // 到达城市输入框焦点时候触发
+    handleDestBlur() {
+      if (this.destData.length === 0) {
+        return;
+      }
+      // 默认获取数组中第一个城市
+      this.form.destCity = this.destData[0].value;
+      this.form.destCode = this.destData[0].sort;
+    },
     // ------------------------------------------------------------------------
     // 出发城市下拉选择时触发
     handleDepartSelect(item) {
@@ -151,7 +185,10 @@ export default {
     },
     // -----------------------------------------------------------------
     // 目标城市下拉选择时触发
-    handleDestSelect(item) {},
+    handleDestSelect(item) {
+      this.form.destCity = item.value;
+      this.form.destCode = item.sort;
+    },
     //--------------------------------------------------------------------
     // 确认选择日期时触发
     handleDate(value) {},
