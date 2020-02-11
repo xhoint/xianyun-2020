@@ -92,7 +92,15 @@ export default {
   },
   methods: {
     // tab切换时触发
-    handleSearchTab(item, index) {},
+    handleSearchTab(item, index) {
+      // MessageBox 弹框--消息提示
+      if (index == 1) {
+        this.$alert("目前暂不支持往返，请使用单程选票！", "提示", {
+          confirmButtonText: "确定",
+          type: "warning"
+        });
+      }
+    },
 
     // -------------------------------------------------
 
@@ -208,7 +216,14 @@ export default {
 
     // ---------------------------------------------------------------------
     // 触发和目标城市切换时触发
-    handleReverse() {},
+    handleReverse() {
+      // 出发城市，出发城市sort  到达城市， 到达城市sort
+      const { departCity, departCode, destCity, destCode } = this.form;
+      this.form.departCity = destCity;
+      this.form.departCode = destCode;
+      this.form.destCity = departCity;
+      this.form.destCode = departCode;
+    },
 
     // --------------------------------------------------------------------
 
