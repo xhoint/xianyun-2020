@@ -86,16 +86,33 @@ export default {
       if (!value) {
         return;
       }
+      //   const arr = [
+      //     { value: "广州", sort: "CAN" },
+      //     { value: "广元", sort: "yuan" },
+      //     { value: "广安", sort: "guangan" }
+      //   ];
+      //   // cb把数组展示到列表中, 数组中每一项必须是对象，对象中必须有value属性
+      //   cb(arr);
 
       //根据value请求城市列表
-
-      const arr = [
-        { value: "广州", sort: "CAN" },
-        { value: "广元", sort: "yuan" },
-        { value: "广安", sort: "guangan" }
-      ];
-      // cb把数组展示到列表中, 数组中每一项必须是对象，对象中必须有value属性
-      cb(arr);
+      this.$axios({
+        url: "/airs/city",
+        // axios的get请求的参数使用params, 如果是post请求使用data
+        params: {
+          name: value //将value赋值给name
+        }
+      }).then(res => {
+        // data是数组，但是数组中的对象没有value值
+        const { data } = res.data;
+        // 给data中的每一项都添加一个value属性--map变量数组
+        const newData = data.map(v => {
+          v.value = v.name.replace("市", ""); //截取数组，
+          // map返回的数组由return组成的替换为空字符串
+          return v;
+        });
+        //   // cb把数组展示到列表中, 数组中每一项必须是对象，
+        cb(newData);
+      });
     },
 
     // 目标城市输入框获得焦点时触发
@@ -119,7 +136,9 @@ export default {
     handleReverse() {},
 
     // 提交表单是触发
-    handleSubmit() {}
+    handleSubmit() {
+      console.log(this.form);
+    }
   },
   mounted() {}
 };
