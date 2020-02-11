@@ -60,8 +60,10 @@ export default {
     // 验证手机号码
     const validateUsername = (rule, value, callback) => {
       if (value == "") {
+        console.log(value);
+
         callback(new Error("请再次手机号码"));
-      } else if (/^1[3-9][0-9]{9}$/.test(value) == false) {
+      } else if (/^1[3,5,7,9][0-9]{9}$/.test(value) == false) {
         // 判断是否是手机号码的正则
         callback(new Error("手机号码格式错误"));
       } else {
@@ -82,7 +84,8 @@ export default {
       rules: {
         username: [
           // required表示必填，message错误的提示信息. trigger输入框失去焦点时候触发验证
-          { required: true, message: "请输入用户名", trigger: "blur" }
+          // { required: true, message: "请输入用户名", trigger: "blur" }
+          { validator: validateUsername, trigger: "blur" }
         ],
         captcha: [{ required: true, message: "请输入验证码", trigger: "blur" }],
         nickname: [{ required: true, message: "请输入昵称", trigger: "blur" }],
@@ -109,7 +112,7 @@ export default {
 
     // 注册
     handleRegSubmit() {
-      //   console.log(this.form); //查看表单内的属性
+      console.log(this.form); //查看表单内的属性
       //   表单验证
       this.$refs["form"].validate(valid => {
         if (valid) {
