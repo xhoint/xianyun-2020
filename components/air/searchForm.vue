@@ -30,6 +30,7 @@
           v-model="form.departCity"
           :fetch-suggestions="queryDepartSearch"
           placeholder="请搜索出发城市"
+          @blur="handleDepartBlur"
           @select="handleDepartSelect"
           class="el-autocomplete"
         ></el-autocomplete>
@@ -60,23 +61,29 @@
 export default {
   data() {
     return {
+      // 切换
       tabs: [
         { icon: "iconfont icondancheng", name: "单程" },
         { icon: "iconfont iconshuangxiang", name: "往返" }
       ],
       currentTab: 0,
+      //   form表单字段
       form: {
         departCity: "", // 出发城市
         departCode: "", // 出发城市代码
         destCity: "", // 到达城市
         destCode: "", // 到达城市代码
         departDate: "" // 日期字符串
-      }
+      },
+      // 出发城市列表
+      departData: []
     };
   },
   methods: {
     // tab切换时触发
     handleSearchTab(item, index) {},
+
+    // -------------------------------------------------
 
     // 监听出发城市输入框的事件
     // value 是输入框的值，cb是回调函数，接收要展示的列表
@@ -110,31 +117,48 @@ export default {
           // map返回的数组由return组成的替换为空字符串
           return v;
         });
+
+        // 把newData保存到data中
+        this.departData = newData;
+
         //   // cb把数组展示到列表中, 数组中每一项必须是对象，
         cb(newData);
       });
     },
+    // ----------------------------------------------
+    // 出发城市输入框失去焦点时候触发
+    handleDepartBlur() {
+      if (this.departData.length === 0) {
+        return;
+      }
+      // 默认获取数组中第一个城市
+      this.form.departCity = this.departData[0].value;
+      this.form.departCode = this.departData[0].sort;
+    },
+
+    // ---------------------------------------------------------------
 
     // 目标城市输入框获得焦点时触发
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDestSearch(value, cb) {},
 
+    // ------------------------------------------------------------------------
     // 出发城市下拉选择时触发
     handleDepartSelect(item) {
       // 出发城市和出发城市代码
       this.form.departCity = item.value;
       this.form.departCode = item.sort;
     },
-
+    // -----------------------------------------------------------------
     // 目标城市下拉选择时触发
     handleDestSelect(item) {},
-
+    //--------------------------------------------------------------------
     // 确认选择日期时触发
     handleDate(value) {},
-
+    // ---------------------------------------------------------------------
     // 触发和目标城市切换时触发
     handleReverse() {},
-
+    // --------------------------------------------------------------------
     // 提交表单是触发
     handleSubmit() {
       console.log(this.form);
