@@ -1,4 +1,13 @@
 <template>
+  <!--
+       思路
+       1. 搜索分析
+       2. 获取出发城市和到达的数据
+       3. 下拉数据列表选择选项时候赋值
+       4. 搜索跳转/ 自定义验证
+       5. 出发城市和到达城市切换
+       6. 往返
+  -->
   <div class="search-form">
     <!-- 头部tab切换 -->
     <el-row type="flex" class="search-tab">
@@ -15,9 +24,10 @@
 
     <el-form class="search-form-content" ref="form" label-width="80px">
       <el-form-item label="出发城市">
-        <!-- fetch-suggestions 返回输入建议的方法 -->
+        <!-- fetch-suggestions 监听输入框的输入，可以在这个事件中请求API数据,类似input事件 -->
         <!-- select 点击选中建议项时触发 -->
         <el-autocomplete
+          v-model="form.departCity"
           :fetch-suggestions="queryDepartSearch"
           placeholder="请搜索出发城市"
           @select="handleDepartSelect"
@@ -54,24 +64,36 @@ export default {
         { icon: "iconfont icondancheng", name: "单程" },
         { icon: "iconfont iconshuangxiang", name: "往返" }
       ],
-      currentTab: 0
+      currentTab: 0,
+      form: {
+        departCity: "", // 出发城市
+        departCode: "", // 出发城市代码
+        destCity: "", // 到达城市
+        destCode: "", // 到达城市代码
+        departDate: "" // 日期字符串
+      }
     };
   },
   methods: {
     // tab切换时触发
     handleSearchTab(item, index) {},
 
-    // 出发城市输入框获得焦点时触发
-    // value 是选中的值，cb是回调函数，接收要展示的列表
+    // 监听出发城市输入框的事件
+    // value 是输入框的值，cb是回调函数，接收要展示的列表
     queryDepartSearch(value, cb) {
-      cb([{ value: 1 }, { value: 2 }, { value: 3 }]);
+      console.log(value);
+      //根据value请求城市列表
+      const arr = [
+        { value: "广州", sort: "CAN" },
+        { value: "广元", sort: "yuan" },
+        { value: "广安", sort: "guangan" }
+      ];
+      cb(arr);
     },
 
     // 目标城市输入框获得焦点时触发
     // value 是选中的值，cb是回调函数，接收要展示的列表
-    queryDestSearch(value, cb) {
-      cb([{ value: 1 }, { value: 2 }, { value: 3 }]);
-    },
+    queryDestSearch(value, cb) {},
 
     // 出发城市下拉选择时触发
     handleDepartSelect(item) {},
