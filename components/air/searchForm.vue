@@ -81,13 +81,20 @@ export default {
     // 监听出发城市输入框的事件
     // value 是输入框的值，cb是回调函数，接收要展示的列表
     queryDepartSearch(value, cb) {
-      console.log(value);
+      //   console.log(value);
+      // 如果输入框没有值就直接返回
+      if (!value) {
+        return;
+      }
+
       //根据value请求城市列表
+
       const arr = [
         { value: "广州", sort: "CAN" },
         { value: "广元", sort: "yuan" },
         { value: "广安", sort: "guangan" }
       ];
+      // cb把数组展示到列表中, 数组中每一项必须是对象，对象中必须有value属性
       cb(arr);
     },
 
@@ -96,7 +103,11 @@ export default {
     queryDestSearch(value, cb) {},
 
     // 出发城市下拉选择时触发
-    handleDepartSelect(item) {},
+    handleDepartSelect(item) {
+      // 出发城市和出发城市代码
+      this.form.departCity = item.value;
+      this.form.departCode = item.sort;
+    },
 
     // 目标城市下拉选择时触发
     handleDestSelect(item) {},
