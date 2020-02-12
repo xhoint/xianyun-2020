@@ -1,6 +1,6 @@
 <template>
   <div class="flight-item">
-    <div>
+    <div @click="isShow = !isShow">
       <!-- 显示的机票信息 -->
       <el-row type="flex" align="middle" class="flight-info">
         <el-col :span="6">
@@ -29,7 +29,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="flight-recommend">
+    <div class="flight-recommend" v-if="isShow">
       <!-- 隐藏的座位信息列表 -->
       <el-row type="flex" justify="space-between" align="middle">
         <el-col :span="4">低价推荐</el-col>
@@ -61,6 +61,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isShow: false // 是否展开列表
+    };
+  },
   // props声明有多种写法，可以等于一个数组，也可以等于一个对象
   // props: ['data']
   props: {
@@ -75,9 +80,11 @@ export default {
   computed: {
     // 相隔时间
     rankTime() {
+      // split 数组截取   splice 删除，替换
       const end = this.data.arr_time.split(":"); // 到达时间["14", "30"]
       const start = this.data.dep_time.split(":"); // 出发时间["12","00"]
       // 到达分钟和出发分钟
+      // 隐式转换 +号
       let endMin = end[0] * 60 + Number(end[1]);
       let startMin = start[0] * 60 + Number(start[1]);
       // 如果到达时间小于出发的时间，已经到达第二天
@@ -92,7 +99,8 @@ export default {
       const min = dis % 60;
       return `${hours}小时${min}分`;
     }
-  }
+  },
+  
 };
 </script>
 

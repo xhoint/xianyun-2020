@@ -46,13 +46,16 @@
         ></el-autocomplete>
       </el-form-item>
       <el-form-item label="出发时间">
+        <!-- DatePicker 日期选择器  -->
         <!-- change 用户确认选择日期时触发 -->
+        <!-- picker-options	当前时间日期选择器特有的选项参考下表  disabledDate -->
         <el-date-picker
           v-model="form.departDate"
           type="date"
           placeholder="请选择日期"
           style="width: 100%;"
           @change="handleDate"
+          :picker-options="pickerOptions"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label>
@@ -87,7 +90,16 @@ export default {
       // 出发城市列表
       departData: [],
       // 到达城市列表
-      destData: []
+      destData: [],
+
+      // DatePicker 日期选择器
+      // 日期可选配置
+      pickerOptions: {
+        // 如果返回true表示可选
+        disabledDate(time) {
+          return time.getTime() + 3600 * 1000 * 24 < Date.now();
+        }
+      }
     };
   },
   methods: {
