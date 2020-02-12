@@ -140,12 +140,12 @@ export default {
         // 把newData保存到data中
         this.departData = newData;
 
-        //   // cb把数组展示到列表中, 数组中每一项必须是对象，
+        // cb把数组展示到列表中, 数组中每一项必须是对象，
         cb(newData);
       });
     },
     // ----------------------------------------------
-    // 出发城市输入框失去焦点时候触发
+    // 出发城市输入框失去焦点时候触发-------失去焦点时判断  清空出发城市的值
     handleDepartBlur() {
       if (this.departData.length === 0) {
         return;
