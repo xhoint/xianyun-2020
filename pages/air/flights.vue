@@ -4,7 +4,7 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <div></div>
+        <FlightsFilters />
 
         <!-- 航班头部布局 -->
         <FlightsListHead />
@@ -46,10 +46,13 @@ import moment from "moment";
 import FlightsListHead from "@/components/air/flightsListHead.vue";
 // 机票列表组件
 import FlightsItem from "@/components/air/flightsItem.vue";
+// 条件过滤组件
+import FlightsFilters from "@/components/air/flightsFilters.vue";
 export default {
   components: {
     FlightsListHead,
-    FlightsItem
+    FlightsItem,
+    FlightsFilters
   },
   data() {
     return {
