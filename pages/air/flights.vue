@@ -10,7 +10,7 @@
         <FlightsListHead />
 
         <!-- 航班信息 -->
-        <FlightsItem />
+        <FlightsItem v-for="(item, index) in flightsData.flights" :key="index" :data="item" />/>
       </div>
 
       <!-- 侧边栏 -->
@@ -34,7 +34,22 @@ export default {
     FlightsItem
   },
   data() {
-    return {};
+    return {
+      // 机票总数据 （有info, flights, total, options这些属性）
+      flightsData: {}
+    };
+  },
+  mounted() {
+    // 请求机票列表数据
+    this.$axios({
+      url: "/airs",
+      params: this.$route.query
+    }).then(res => {
+      console.log(res);
+
+      // 总数据
+      this.flightsData = res.data;
+    });
   }
 };
 </script>
