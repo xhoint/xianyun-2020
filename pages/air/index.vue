@@ -68,8 +68,6 @@ export default {
     SearchForm
   },
   mounted() {
-    console.log(this.sales);
-
     this.$axios({
       url: `/airs/sale`
     }).then(res => {

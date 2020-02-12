@@ -110,8 +110,13 @@ export default {
       //   console.log(value);
       // 如果输入框没有值就直接返回
       if (!value) {
+        // 如果value是空的，把原来的城市列表清空
+        this.departData = [];
+        // 调用cb传入空数组，不会出现空白的加载中的下拉面板
+        cb([]);
         return;
       }
+      // 模拟数据
       //   const arr = [
       //     { value: "广州", sort: "CAN" },
       //     { value: "广元", sort: "yuan" },
@@ -145,7 +150,7 @@ export default {
       });
     },
     // ----------------------------------------------
-    // 出发城市输入框失去焦点时候触发-------失去焦点时判断  清空出发城市的值
+    // 出发城市输入框失去焦点时候触发-------失去焦点时判断  清空出发城市的值this.departData.value=""
     handleDepartBlur() {
       if (this.departData.length === 0) {
         return;
@@ -161,6 +166,10 @@ export default {
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDestSearch(value, cb) {
       if (!value) {
+        // 如果value是空的，把原来的城市列表清空
+        this.departData = [];
+        // 调用cb传入空数组，不会出现空白的加载中的下拉面板
+        cb([]);
         return;
       }
       // 根据value请求城市列表
