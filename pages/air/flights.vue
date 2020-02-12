@@ -10,7 +10,7 @@
         <FlightsListHead />
 
         <!-- 航班信息 -->
-        <FlightsItem v-for="(item, index) in flightsData.flights" :key="index" :data="item" />/>
+        <FlightsItem v-for="(item, index) in flightsData.flights" :key="index" :data="item" />
       </div>
 
       <!-- 侧边栏 -->
