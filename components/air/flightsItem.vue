@@ -99,8 +99,7 @@ export default {
       const min = dis % 60;
       return `${hours}小时${min}分`;
     }
-  },
-  
+  }
 };
 </script>
 
