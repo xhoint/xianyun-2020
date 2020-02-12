@@ -104,6 +104,67 @@ export default {
 
     // -------------------------------------------------
 
+    // 封装出发城市和到达城市的请求函数
+    querySearch(value) {
+      return this.$axios({
+        url: "/airs/city",
+        // axios的get请求的参数使用params, 如果是post请求使用data
+        params: {
+          name: value //将value赋值给name
+        }
+      }).then(res => {
+        // data是数组，但是数组中的对象没有value值
+        const { data } = res.data;
+        // 给data中的每一项都添加一个value属性--map变量数组
+        const newData = data.map(v => {
+          v.value = v.name.replace("市", ""); //截取数组，
+          // map返回的数组由return组成的替换为空字符串
+          return v;
+        });
+        return newData;
+      });
+    },
+
+    // -----------------------------------------
+
+    // 出发城市输入框的事件
+    queryDepartSearch(value, cb) {
+      // 如果输入框没有值就直接返回
+      if (!value) {
+        // 1.（bug）如果value是空的，把原来的城市列表清空
+        this.departData = [];
+        // 2.（bug）调用cb传入空数组，不会出现空白的加载中的下拉面板
+        cb([]);
+        return;
+      }
+      // 调用封装后的函数
+      this.querySearch(value).then(newData => {
+        this.departData = newData;
+        cb(newData);
+      });
+    },
+    // ----------------------------------------------------------
+    // 到达城市输入框
+    queryDestSearch(value, cb) {
+      // 如果输入框没有值就直接返回
+      if (!value) {
+        // 如果value是空的，把原来的城市列表清空
+        this.destData = [];
+        // 调用cb传入空数组，不会出现空白的加载中的下拉面板
+        cb([]);
+        return;
+      }
+      // 调用封装后的函数
+      this.querySearch(value).then(newData => {
+        this.destData = newData;
+        cb(newData);
+      });
+    },
+
+    // --------------------------------------------------------------------------
+
+    // 未封装时  出发城市输入框
+    /*
     // 监听出发城市输入框的事件
     // value 是输入框的值，cb是回调函数，接收要展示的列表
     queryDepartSearch(value, cb) {
@@ -149,6 +210,8 @@ export default {
         cb(newData);
       });
     },
+    */
+
     // ----------------------------------------------
     // 出发城市输入框失去焦点时候触发-------失去焦点时判断  清空出发城市的值this.departData.value=""
     handleDepartBlur() {
@@ -162,12 +225,14 @@ export default {
 
     // ---------------------------------------------------------------
 
-    // 目标城市输入框获得焦点时触发
+    /*
+  未封装时 目标城市输入框
+  // 目标城市输入框获得焦点时触发
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDestSearch(value, cb) {
       if (!value) {
         // 如果value是空的，把原来的城市列表清空
-        this.departData = [];
+        this.destData = [];
         // 调用cb传入空数组，不会出现空白的加载中的下拉面板
         cb([]);
         return;
@@ -189,6 +254,8 @@ export default {
         cb(newData);
       });
     },
+   */
+
     // ----------------------------------------------
 
     // 到达城市输入框焦点时候触发
