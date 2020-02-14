@@ -96,13 +96,24 @@ export default {
     },
 
     // 选择出发时间时候触发
-    handleFlightTimes(value) {},
+    handleFlightTimes(value) {
+      console.log(value);
+    },
 
     // 选择航空公司时候触发
-    handleCompany(value) {},
+    handleCompany(value) {
+      console.log(value);
+      const newData = this.data.flights.filter(v => {
+        // 如果return的值是true，说明是符合条件
+        return v.airline_name === value;
+      });
+      this.$emit("getData", newData);
+    },
 
     // 选择机型时候触发
-    handleAirSize(value) {},
+    handleAirSize(value) {
+      console.log(value);
+    },
 
     // 撤销条件时候触发
     handleFiltersCancel() {}

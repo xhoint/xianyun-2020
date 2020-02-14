@@ -5,7 +5,8 @@
       <div class="flights-content">
         <!-- 过滤条件 -->
         <!-- 动态绑定 flightsData中的数据-->
-        <FlightsFilters :data="flightsData" />
+        <!-- 事件中不需要传参 -->
+        <FlightsFilters :data="flightsData" @getData="getData" />
 
         <!-- 航班头部布局 -->
         <FlightsListHead />
@@ -106,6 +107,12 @@ export default {
     // 切换条数时候触发的事件
     handleSizeChange(index) {
       this.pageSize = index;
+    },
+    // 获取过滤组件的过滤后的数组(arr就是过滤后的数组)
+    getData(arr) {
+      this.flightsData.flights = arr;
+      // 总条数
+      this.total = arr.length;
     },
     // 切换页数时候触发的事件
     handleCurrentChange(index) {
