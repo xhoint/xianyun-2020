@@ -104,6 +104,7 @@ export default {
     handleCompany(value) {
       console.log(value);
       const newData = this.data.flights.filter(v => {
+        // 排他思想
         // 如果return的值是true，说明是符合条件
         return v.airline_name === value;
       });

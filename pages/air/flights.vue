@@ -6,7 +6,7 @@
         <!-- 过滤条件 -->
         <!-- 动态绑定 flightsData中的数据-->
         <!-- 事件中不需要传参 -->
-        <FlightsFilters :data="flightsData" @getData="getData" />
+        <FlightsFilters :data="cacheFlightsData" @getData="getData" />
 
         <!-- 航班头部布局 -->
         <FlightsListHead />
@@ -63,6 +63,12 @@ export default {
         info: {},
         options: {}
       },
+      // 数组备份,数据一旦赋值之后就不能被修改
+      cacheFlightsData: {
+        flights: [],
+        info: {},
+        options: {}
+      },
       // 当前页数
       pageIndex: 1,
       // 当前的条数
@@ -99,6 +105,8 @@ export default {
       console.log(res);
       // 总数据
       this.flightsData = res.data;
+      // 备份一下数据, 注意res.data需要拷贝一份出来
+      this.cacheFlightsData = { ...res.data };
       // 修改总条数
       this.total = this.flightsData.total;
     });
@@ -111,6 +119,7 @@ export default {
     // 获取过滤组件的过滤后的数组(arr就是过滤后的数组)
     getData(arr) {
       this.flightsData.flights = arr;
+
       // 总条数
       this.total = arr.length;
     },
