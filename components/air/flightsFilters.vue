@@ -64,6 +64,8 @@
       筛选：
       <el-button type="primary" round plain size="mini" @click="handleFiltersCancel">撤销</el-button>
     </div>
+    <!-- 渲染空的字符串，只需要监听功能 -->
+    <span>{{filter}}</span>
   </div>
 </template>
 
@@ -89,51 +91,88 @@ export default {
       airSize: "" // 机型大小
     };
   },
+  // 监听多次过滤
+  computed: {
+    // 渲染空的字符串，只需要监听功能
+    filter() {
+      const newData = this.data.flights.filter(v => {
+        // 假设当前的数据都是符合条件
+        let valid = true;
+        // 找到不符合条件的
+        if (this.company && v.airline_name !== this.company) {
+          valid = false;
+        }
+        // 机型大小
+        if (this.airSize && v.plane_size !== this.airSize) {
+          valid = false;
+        }
+        // 机场
+        if (this.airport && v.org_airport_name !== this.airport) {
+          valid = false;
+        }
+        // 时间
+        if (this.flightTimes) {
+          // 选中的时间段
+          const arr = this.flightTimes.split(","); // ["6","12"]
+          // 当前航班小时
+          const hours = Number(v.dep_time.split(":")[0]);
+
+          // 如果出发的小时不在时间段内，认为是不合法
+          if (Number(arr[0]) > hours || hours >= Number(arr[1])) {
+            valid = false;
+          }
+        }
+        return valid;
+      });
+      this.$emit("getData", newData);
+      return "";
+    }
+  },
   methods: {
     // 选择机场时候触发
     handleAirport(value) {
       console.log(value);
-      // 从所有出发机场里面找到条件符合value的
-      const newData = this.data.flights.filter(v => {
-        // 如果return的值是true，说明是符合条件
-        return v.org_airport_name === value;
-      });
-      this.$emit("getData", newData);
+      // // 从所有出发机场里面找到条件符合value的
+      // const newData = this.data.flights.filter(v => {
+      //   // 如果return的值是true，说明是符合条件
+      //   return v.org_airport_name === value;
+      // });
+      // this.$emit("getData", newData);
     },
 
     // 选择出发时间时候触发
     handleFlightTimes(value) {
       console.log(value);
-      const arr = value.split(","); // ["6","12"]
-      const newData = this.data.flights.filter(v => {
-        // 出发时间的小时
-        const hours = Number(v.dep_time.split(":")[0]);
-        // 判断出发的小时是否在选中的时间段内
-        return Number(arr[0]) <= hours && hours < Number(arr[1]);
-      });
-      this.$emit("getData", newData);
+      // const arr = value.split(","); // ["6","12"]
+      // const newData = this.data.flights.filter(v => {
+      //   // 出发时间的小时
+      //   const hours = Number(v.dep_time.split(":")[0]);
+      //   // 判断出发的小时是否在选中的时间段内
+      //   return Number(arr[0]) <= hours && hours < Number(arr[1]);
+      // });
+      // this.$emit("getData", newData);
     },
 
     // 选择航空公司时候触发
     handleCompany(value) {
       console.log(value);
-      const newData = this.data.flights.filter(v => {
-        // 排他思想
-        // 如果return的值是true，说明是符合条件
-        return v.airline_name === value;
-      });
-      this.$emit("getData", newData);
+      // const newData = this.data.flights.filter(v => {
+      //   // 排他思想
+      //   // 如果return的值是true，说明是符合条件
+      //   return v.airline_name === value;
+      // });
+      // this.$emit("getData", newData);
     },
 
     // 选择机型时候触发
     handleAirSize(value) {
       console.log(value);
-      // 从所有航班里面找到条件符合value的 （假设是东航）
-      const newData = this.data.flights.filter(v => {
-        // 如果return的值是true，说明是符合条件
-        return v.plane_size === value;
-      });
-      this.$emit("getData", newData);
+      // // 从所有航班里面找到条件符合value的 （假设是东航）
+      // const newData = this.data.flights.filter(v => {
+      //   // 如果return的值是true，说明是符合条件
+      //   return v.plane_size === value;
+      // });
+      // this.$emit("getData", newData);
     },
 
     // 撤销条件时候触发

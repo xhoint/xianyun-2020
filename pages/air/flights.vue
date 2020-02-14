@@ -60,6 +60,7 @@ export default {
     return {
       // 机票总数据 （有info, flights, total, options这些属性）
       flightsData: {
+        flights: [],
         info: {},
         options: {}
       },
