@@ -176,7 +176,14 @@ export default {
     },
 
     // 撤销条件时候触发
-    handleFiltersCancel() {}
+    handleFiltersCancel() {
+      // 让条件过滤数据为空
+     this.airport= "", // 机场
+       this.flightTimes= "", // 出发时间
+       this.company= "", // 航空公司
+       this.airSize="" // 机型大小
+      this.$emit("setDataList", this.data.flights);
+    }
   }
 };
 </script>
