@@ -49,6 +49,7 @@
             </el-col>
             <el-col :span="5" class="price">￥{{item.settle_price}}</el-col>
             <el-col :span="3" class="choose-button">
+              <!-- item.seat_xid  座位id -->
               <el-button type="warning" size="mini" @click="handleChoose(data.id, item.seat_xid)">选定</el-button>
               <p>剩余：{{item.discount}}</p>
             </el-col>
