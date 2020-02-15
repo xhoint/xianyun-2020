@@ -101,22 +101,49 @@ export default {
       return arr;
     }
   },
+  // 监听url数据变化---实例下任何属性的变化，监听一次。
+  watch: {
+    $route() {
+      console.log(this.$route);
+      this.getList();
+    }
+  },
   mounted() {
-    // 请求机票列表数据
-    this.$axios({
-      url: "/airs",
-      params: this.$route.query
-    }).then(res => {
-      console.log(res);
-      // 总数据
-      this.flightsData = res.data;
-      // 备份一下数据, 注意res.data需要拷贝一份出来
-      this.cacheFlightsData = { ...res.data };
-      // 修改总条数
-      this.total = this.flightsData.total;
-    });
+    //请求机票列表接口
+    this.getList();
+    // // 请求机票列表数据
+    // this.$axios({
+    //   url: "/airs",
+    //   params: this.$route.query
+    // }).then(res => {
+    //   console.log(res);
+    //   // 总数据
+    //   this.flightsData = res.data;
+    //   // 备份一下数据, 注意res.data需要拷贝一份出来
+    //   this.cacheFlightsData = { ...res.data };
+    //   // 修改总条数
+    //   this.total = this.flightsData.total;
+    // });
   },
   methods: {
+    //请求机票列表接口
+    // 请求机票列表接口
+    getList() {
+      // 请求机票列表数据
+      this.$axios({
+        url: "/airs",
+        params: this.$route.query
+      }).then(res => {
+        // 总数据
+        this.flightsData = res.data;
+        // 备份一下数据, 注意res.data需要拷贝一份出来
+        this.cacheFlightsData = { ...res.data };
+
+        // 修改总条数
+        this.total = this.flightsData.total;
+      });
+    },
+
     // 切换条数时候触发的事件
     handleSizeChange(index) {
       this.pageSize = index;
