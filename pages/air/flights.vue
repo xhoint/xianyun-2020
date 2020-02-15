@@ -101,7 +101,20 @@ export default {
       return arr;
     }
   },
+  // 文档地址：https://router.vuejs.org/zh/guide/advanced/navigation-guards
+  // 在当前路由改变，但是该组件被复用时调用
+  // to: 要跳转的页面路由对象
+  // from：要离开页面路有对象
+  // next 是必须要调用
+  beforeRouteUpdate(to, from, next) {
+    // 每次url变化时候把pageIndex初始化为1
+    this.pageIndex = 1;
+    // 请求机票列表数据
+    this.getList();
+    next();
+  },
   // 监听url数据变化---实例下任何属性的变化，监听一次。
+  // 小bug---点击当前页面无数据。初始化页数
   watch: {
     $route() {
       console.log(this.$route);
