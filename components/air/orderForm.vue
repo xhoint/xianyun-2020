@@ -31,7 +31,11 @@
       <h2>保险</h2>
       <div>
         <div class="insurance-item" v-for="(item,index) in infoData.insurances" :key="index">
-          <el-checkbox :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`" border></el-checkbox>
+          <el-checkbox
+            :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`"
+            border
+            @change="handleInsurance(item.id)"
+          ></el-checkbox>
         </div>
       </div>
     </div>
@@ -114,12 +118,26 @@ export default {
       this.form.users.splice(index, 1);
     },
 
+    // 处理保险数据id
+    handleInsurance(id) {
+      // 先判断数据中是否有id
+      const index = this.form.insurances.indexOf(id);
+
+      // 如果有id，则说明是取消状态
+      if (index > -1) {
+        // 删除该id
+        this.form.insurances.splice(index, 1);
+      } else {
+        // 没有id就是新增
+        this.form.insurances.push(id);
+      }
+    },
     // 发送手机验证码
     handleSendCaptcha() {},
 
     // 提交订单
     handleSubmit() {
-      console.log(this.form.users);
+      console.log(this.form.insurances);
     }
   }
 };
