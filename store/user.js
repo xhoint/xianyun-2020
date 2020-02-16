@@ -70,5 +70,6 @@ export const actions = {
       // console.log("store中的：res");
       return res;
     });
-  }
+  },
+  
 };
