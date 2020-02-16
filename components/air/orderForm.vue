@@ -135,7 +135,7 @@ export default {
     // 发送手机验证码
     handleSendCaptcha() {
       // 判断手机号是否为空
-      if (!this.form.contacPhone) {
+      if (!this.form.contactPhone) {
         // 错误信息
         this.$message.error("手机号码不能为空");
         return;
