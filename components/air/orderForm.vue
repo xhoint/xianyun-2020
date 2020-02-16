@@ -30,8 +30,8 @@
     <div class="air-column">
       <h2>保险</h2>
       <div>
-        <div class="insurance-item">
-          <el-checkbox label="航空意外险：￥30/份×1  最高赔付260万" border></el-checkbox>
+        <div class="insurance-item" v-for="(item,index) in infoData.insurances" :key="index">
+          <el-checkbox :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`" border></el-checkbox>
         </div>
       </div>
     </div>
@@ -81,8 +81,22 @@ export default {
         // 根据路由跳转获取
         seat_xid: " this.$route.query.seat_xid", //座位id
         air: "this.$route.query.id" //航班id
-      }
+      },
+      // 请求的机票列表
+      infoData: {}
     };
+  },
+  mounted() {
+    // 请求机票详情信息（保险以及右侧需要的数据）
+    const { id, seat_xid } = this.$route.query; //将数据从路由中结构出来
+    this.$axios({
+      url: "/airs/" + id, //  /airs/:id
+      params: seat_xid
+    }).then(res => {
+      console.log(res);
+      // 赋值给机票的详细信息
+      this.infoData = res.data;
+    });
   },
   methods: {
     // 添加乘机人
