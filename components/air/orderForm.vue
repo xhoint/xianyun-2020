@@ -178,6 +178,7 @@ export default {
         contactPhone: {
           errMessage: "手机号码不能为空",
           validator: () => {
+            // 双重取反
             return !!this.form.contactPhone;
           }
         },
@@ -193,6 +194,7 @@ export default {
       // console.log(Object.keys(rules))
       // 先假设所有校验都是通过的
       let valid = true;
+      // object.keys（）----循环遍历对象方法， 例如：for....in 
       Object.keys(rules).forEach(v => {
         // 如果已经有字段校验不通过，就不用继续判断了
         if (!valid) return;
