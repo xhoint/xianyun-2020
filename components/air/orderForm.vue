@@ -45,7 +45,7 @@
       <div class="contact">
         <el-form label-width="60px">
           <el-form-item label="姓名">
-            <el-input v-model="form.contacName"></el-input>
+            <el-input v-model="form.contactName"></el-input>
           </el-form-item>
 
           <el-form-item label="手机">
@@ -78,13 +78,13 @@ export default {
           }
         ],
         insurances: [], //保险id
-        contacName: "", //联系人名字
-        contacPhone: "", //联系人电话
+        contactName: "", //联系人名字
+        contactPhone: "", //联系人电话
         captcha: "", //手机验证码
         invoice: false,
         // 根据路由跳转获取
-        seat_xid: " this.$route.query.seat_xid", //座位id
-        air: "this.$route.query.id" //航班id
+        seat_xid: this.$route.query.seat_xid, //座位id
+        air: this.$route.query.id //航班id
       },
       // 请求的机票列表
       infoData: {}
@@ -151,7 +151,7 @@ export default {
 
     // 提交订单
     handleSubmit() {
-      // console.log(this.form.insurances);
+      // console.log(this.form)
       const rules = {
         users: {
           errMessage: "乘机人信息不能为空",
@@ -178,6 +178,7 @@ export default {
         contactPhone: {
           errMessage: "手机号码不能为空",
           validator: () => {
+            // 双重取反
             return !!this.form.contactPhone;
           }
         },
@@ -193,6 +194,7 @@ export default {
       // console.log(Object.keys(rules))
       // 先假设所有校验都是通过的
       let valid = true;
+      // object.keys（）----循环遍历对象方法， 例如：for....in
       Object.keys(rules).forEach(v => {
         // 如果已经有字段校验不通过，就不用继续判断了
         if (!valid) return;
@@ -205,7 +207,20 @@ export default {
         }
       });
       // 如果验证没通过，就直接返回
+
       if (!valid) return;
+      // 调用提交订单的接口
+      this.$axios({
+        url: "/airorders",
+        method: "POST",
+        data: this.form,
+        headers: {
+          // 必须要做token前面加上`Bearer `字符串，后面有一个空格的
+          Authorization: `Bearer ` + this.$store.state.user.userInfo.token
+        }
+      }).then(res => {
+        console.log(res);
+      });
     }
   }
 };

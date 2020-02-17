@@ -109,9 +109,10 @@ export default {
   beforeRouteUpdate(to, from, next) {
     // 每次url变化时候把pageIndex初始化为1
     this.pageIndex = 1;
+    // 先跳转，再请求
+    next();
     // 请求机票列表数据
     this.getList();
-    next();
   },
   // 监听url数据变化---实例下任何属性的变化，监听一次。
   // 小bug---点击当前页面无数据。初始化页数
@@ -140,7 +141,7 @@ export default {
   },
   methods: {
     //请求机票列表接口
-    // 请求机票列表接口
+
     getList() {
       // 请求机票列表数据
       this.$axios({
