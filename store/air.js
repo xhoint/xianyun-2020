@@ -11,6 +11,12 @@ export const mutations = {
   // 第一个参数必须是state, 第二个参数调用时候传入的参数
   setHistory(state, data) {
     // 将数据传入到history中
-    state.history.push(data);
+    // state.history.push(data);
+    state.history.unshift(data);
+
+    // 判断历史记录
+    if (state.history.length > 5) {
+      state.history.length = 5;
+    }
   }
 };

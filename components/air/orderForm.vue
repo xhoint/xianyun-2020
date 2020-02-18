@@ -191,12 +191,14 @@ export default {
         }
       };
       // 循环rules对象调用validator方法实现校验
-      // console.log(Object.keys(rules))
+      console.log(Object.keys(rules));
       // 先假设所有校验都是通过的
       let valid = true;
       // object.keys（）----循环遍历对象方法， 例如：for....in
       Object.keys(rules).forEach(v => {
         // 如果已经有字段校验不通过，就不用继续判断了
+
+        //return 不能阻止循环,  但可以阻止下面代码的执行
         if (!valid) return;
         const item = rules[v];
         // 执行每个字段下的validator函数

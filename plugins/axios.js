@@ -17,4 +17,16 @@ export default data => {
       Message.error(message);
     }
   });
+  // 当前的请求的token是有问题的,401一般是token错误或者过期,403是因为接口没有传token
+
+  if (statusCode === 401 || statusCode === 403) {
+    // 跳转到登录页
+    // 不是组件不能push-
+    // location.href----浏览器跳转,不建议使用
+
+    // 路由方法--this.axios中也可以使用
+    data.redirect(200, "/user/login", {
+      returnUrl: data.route.fullPath
+    });
+  }
 };
