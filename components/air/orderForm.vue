@@ -194,7 +194,11 @@ export default {
       // console.log(Object.keys(rules))
       // 先假设所有校验都是通过的
       let valid = true;
+<<<<<<< HEAD
       // object.keys（）----循环遍历对象方法， 例如：for....in
+=======
+      // object.keys（）----循环遍历对象方法， 例如：for....in 
+>>>>>>> b423409520e1e46eb83ae2f53c53cfe1baabfb2e
       Object.keys(rules).forEach(v => {
         // 如果已经有字段校验不通过，就不用继续判断了
         if (!valid) return;
