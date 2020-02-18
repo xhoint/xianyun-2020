@@ -5,16 +5,26 @@
       <OrderForm />
 
       <!-- 侧边栏 -->
-      <div class="aside"></div>
+      <OrderAside :data="$store.state.air.orderDetail" />
     </el-row>
   </div>
 </template>
 
 <script>
 import OrderForm from "@/components/air/orderForm";
+import OrderAside from "@/components/air/OrderAside.vue";
 export default {
+  data() {
+    return {
+      infoData: {
+        insurances: [], // 初始化保险数据
+        seat_infos: {}
+      }
+    };
+  },
   components: {
-    OrderForm
+    OrderForm,
+    OrderAside
   }
 };
 </script>

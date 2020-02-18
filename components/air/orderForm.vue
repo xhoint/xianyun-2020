@@ -95,11 +95,15 @@ export default {
     const { id, seat_xid } = this.$route.query; //将数据从路由中结构出来
     this.$axios({
       url: "/airs/" + id, //  /airs/:id
-      params: seat_xid
+      params: {
+        seat_xid
+      }
     }).then(res => {
       console.log(res);
       // 赋值给机票的详细信息
       this.infoData = res.data;
+      // 把infoData保存到store
+      this.$store.commit("air/setOrderDetail", this.infoData);
     });
   },
   methods: {
@@ -194,15 +198,7 @@ export default {
       console.log(Object.keys(rules));
       // 先假设所有校验都是通过的
       let valid = true;
-<<<<<<< HEAD
       // object.keys（）----循环遍历对象方法， 例如：for....in
-=======
-<<<<<<< HEAD
-      // object.keys（）----循环遍历对象方法， 例如：for....in
-=======
-      // object.keys（）----循环遍历对象方法， 例如：for....in 
->>>>>>> b423409520e1e46eb83ae2f53c53cfe1baabfb2e
->>>>>>> c78d38e57be7d1d829a706f6ac89d0fbd9948ced
       Object.keys(rules).forEach(v => {
         // 如果已经有字段校验不通过，就不用继续判断了
 
@@ -229,7 +225,8 @@ export default {
           Authorization: `Bearer ` + this.$store.state.user.userInfo.token
         }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
+        this.$$message.success("订单提交成功");
       });
     }
   }
